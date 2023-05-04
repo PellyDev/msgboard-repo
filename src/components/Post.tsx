@@ -5,7 +5,7 @@ export default function Post() {
         <div className="card w-6/12 shadow-xl">
             <div className="card-body gap-8">
                 <div className="flex justify-between">
-                    <h2 className="text-primary card-title">Post title</h2>
+                    <h2 className="card-title">Post Title</h2>
                     <button className="btn btn-sm btn-square btn-outline btn-error">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
