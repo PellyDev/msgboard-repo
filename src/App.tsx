@@ -1,22 +1,23 @@
 import Post from "./components/Post"
 import { db } from "../firebase-config"
-import { getDocs, collection } from "firebase/firestore"
+import { getDocs, collection, DocumentData } from "firebase/firestore"
 import { useEffect, useState } from "react"
 
 function App() {
-    const [posts, setPosts] = useState([])
+    const [posts, setPosts] = useState<Array<DocumentData>>([])
     const postCollection = collection(db, "posts")
 
     async function getPosts() {
         try {
             const data = await getDocs(postCollection)
-            console.log(data.docs[0].data())
+            setPosts(data.docs.map((doc) => doc.data()))
         } catch (err) {
             console.log(err)
         }
     }
     useEffect(() => {
         getPosts()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
         <div className="App">
