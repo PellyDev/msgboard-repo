@@ -1,11 +1,15 @@
 import avatar from "../assets/avatar.jpg"
+import { IPost } from "../interfaces/post"
 
-export default function Post() {
+export default function Post(props: IPost) {
+    const { author, text, title, seconds, avatarId } = props
+    const formattedDate = new Date(Number(seconds) * 1000).toLocaleDateString()
+    console.log(formattedDate)
     return (
         <div className="card w-6/12 shadow-xl">
             <div className="card-body gap-8">
                 <div className="flex justify-between">
-                    <h2 className="card-title">Post Title</h2>
+                    <h2 className="card-title">{title}</h2>
                     <button className="btn btn-sm btn-square btn-outline btn-error">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +27,7 @@ export default function Post() {
                         </svg>
                     </button>
                 </div>
-                <p>If a dog chews shoes whose shoes does he choose?</p>
+                <p>{text}</p>
                 <div className="flex w-full text-gray-400 justify-between items-center">
                     <div className="flex gap-3 items-center">
                         <div className="avatar">
@@ -31,10 +35,10 @@ export default function Post() {
                                 <img className="" src={avatar} />
                             </div>
                         </div>
-                        <p className=" font-semibold">Pelly</p>
+                        <p className=" font-semibold">{author}</p>
                     </div>
                     <p className="w-fit flex-grow-0 font-semibold">
-                        03/05/2023
+                        {formattedDate}
                     </p>
                 </div>
             </div>
