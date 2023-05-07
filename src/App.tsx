@@ -1,6 +1,7 @@
 import Post from "./components/Post"
 import { DocumentData } from "@firebase/firestore"
 import { useEffect, useState } from "react"
+import Form from "./components/Form"
 
 function App() {
     const [posts, setPosts] = useState<Array<DocumentData>>([])
@@ -29,6 +30,7 @@ function App() {
                         avatarId={post.avatarId}
                     />
                 ))}
+                <Form />
             </div>
         </div>
     )

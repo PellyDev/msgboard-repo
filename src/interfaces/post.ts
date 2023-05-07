@@ -1,7 +1,7 @@
 export interface IPost {
     author: string
     avatarId: number
-    seconds: { seconds: number; nanoseconds: number }
+    seconds: number
     keyPhrase?: null
     text: string
     title: string

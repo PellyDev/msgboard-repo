@@ -3,8 +3,7 @@ import { IPost } from "../interfaces/post"
 
 export default function Post(props: IPost) {
     const { author, text, title, seconds, avatarId } = props
-    const formattedDate = new Date(Number(seconds) * 1000).toLocaleDateString()
-    console.log(formattedDate)
+    const formattedDate = new Date(seconds * 1000).toLocaleDateString()
     return (
         <div className="card w-6/12 shadow-xl">
             <div className="card-body gap-8">
