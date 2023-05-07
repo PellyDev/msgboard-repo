@@ -30,8 +30,8 @@ function App() {
                         avatarId={post.avatarId}
                     />
                 ))}
-                <Form />
             </div>
+            <Form />
         </div>
     )
 }
