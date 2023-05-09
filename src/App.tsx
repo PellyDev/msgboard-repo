@@ -22,7 +22,8 @@ function App() {
             <div className="flex justify-center gap-8 flex-wrap">
                 {posts.map((post) => (
                     <Post
-                        key={post.date.seconds}
+                        key={post.id}
+                        id={post.id}
                         author={post.author}
                         text={post.text}
                         title={post.title}

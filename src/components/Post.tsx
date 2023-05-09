@@ -2,14 +2,21 @@ import avatar from "../assets/avatar.jpg"
 import { IPost } from "../interfaces/post"
 
 export default function Post(props: IPost) {
-    const { author, text, title, seconds, avatarId } = props
+    function deleteHandler() {
+        // TODO: implement serverless function to delete post
+        console.log(`deleting post with ID ${id}`)
+    }
+    const { author, text, title, id, seconds, avatarId } = props
     const formattedDate = new Date(seconds * 1000).toLocaleDateString()
     return (
         <div className="card w-6/12 shadow-xl">
             <div className="card-body gap-8">
                 <div className="flex justify-between">
-                    <h2 className="card-title">{title}</h2>
-                    <button className="btn btn-sm btn-square btn-outline btn-error">
+                    <h2 className="card-title text-primary">{title}</h2>
+                    <button
+                        onClick={deleteHandler}
+                        className="btn btn-sm btn-square btn-outline btn-secondary"
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-6 w-6"
