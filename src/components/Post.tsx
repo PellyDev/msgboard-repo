@@ -1,11 +1,10 @@
-import avatar from "../assets/avatar.jpg"
 import avatar_1 from "../assets/avatar_1.png"
 import avatar_2 from "../assets/avatar_2.png"
 import avatar_3 from "../assets/avatar_3.png"
 import { IPost } from "../interfaces/post"
 
 export default function Post(props: IPost) {
-    // mapping avatarId to avatar image
+    // mapping avatarId (queried from db) to avatar image
     const avatarMap: { [key: number]: string } = {
         0: avatar_1,
         1: avatar_2,

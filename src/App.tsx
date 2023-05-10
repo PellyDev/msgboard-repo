@@ -2,6 +2,7 @@ import Post from "./components/Post"
 import { DocumentData } from "@firebase/firestore"
 import { useEffect, useState } from "react"
 import Form from "./components/Form"
+import Toast from "./components/Toast"
 
 function App() {
     const [posts, setPosts] = useState<Array<DocumentData>>([])
@@ -33,6 +34,10 @@ function App() {
                 ))}
             </div>
             <Form />
+            <Toast
+                message="You need to set a keyphrase so you can delete your posts later."
+                type="info"
+            />
         </div>
     )
 }
