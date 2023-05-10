@@ -22,7 +22,9 @@ export default function Post(props: IPost) {
         <div className="card w-6/12 shadow-xl">
             <div className="card-body gap-8">
                 <div className="flex justify-between">
-                    <h2 className="card-title text-primary">{title}</h2>
+                    <h2 className="card-title text-primary font-bold">
+                        {title}
+                    </h2>
                     <button
                         onClick={deleteHandler}
                         className="btn btn-sm btn-square btn-outline btn-secondary"

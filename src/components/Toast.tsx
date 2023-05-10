@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import React, { useEffect } from "react"
 import { TtoastType } from "../App"
 
 type TProps = {
@@ -8,14 +8,25 @@ type TProps = {
 }
 
 export default function Toast(props: TProps) {
+    const TOAST_LIFETIME = 3000
     const { message, type, destroyToast } = props
 
-    // destroy the toast after 3 seconds, clean up function to clean up the timer if toast is destroyed before
+    // destroy the toast after 3 seconds
     useEffect(() => {
         const timer = setTimeout(() => {
             destroyToast()
-        }, 3000)
+        }, TOAST_LIFETIME)
         return () => clearTimeout(timer)
+    }, [])
+
+    // destroy the toast if user clicks anywhere inside the toast
+    useEffect(() => {
+        function clickHandler(e: MouseEvent) {
+            const target = e.target as HTMLElement
+            if (target.closest(".alert")) destroyToast()
+        }
+        window.addEventListener("click", clickHandler)
+        return () => window.removeEventListener("click", clickHandler)
     }, [])
 
     let svg = null
