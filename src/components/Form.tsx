@@ -40,14 +40,14 @@ export default function Form({ createToast }: TProps) {
             keyPhaseState.isValid &&
             textState.isValid
         ) {
-            console.log("submitting form")
+            createToast("Post submitted.", "success")
             handleReset()
         } else {
             setUserState((prev) => ({ ...prev, isTouched: true }))
             setTitleState((prev) => ({ ...prev, isTouched: true }))
             setKeyPhaseState((prev) => ({ ...prev, isTouched: true }))
             setTextState((prev) => ({ ...prev, isTouched: true }))
-            console.log("error")
+            createToast("Please fill out the form correctly.", "error")
         }
     }
 

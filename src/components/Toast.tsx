@@ -11,13 +11,13 @@ export default function Toast(props: TProps) {
     const TOAST_LIFETIME = 3000
     const { message, type, destroyToast } = props
 
-    // destroy the toast after 3 seconds
+    // destroy the toast after TOAST_LIFETIME
     useEffect(() => {
         const timer = setTimeout(() => {
             destroyToast()
         }, TOAST_LIFETIME)
         return () => clearTimeout(timer)
-    }, [])
+    }, []) // eslint-disable-line
 
     // destroy the toast if user clicks anywhere inside the toast
     useEffect(() => {
@@ -27,7 +27,7 @@ export default function Toast(props: TProps) {
         }
         window.addEventListener("click", clickHandler)
         return () => window.removeEventListener("click", clickHandler)
-    }, [])
+    }, []) // eslint-disable-line
 
     let svg = null
     if (type === "info") {
@@ -84,7 +84,7 @@ export default function Toast(props: TProps) {
 
     return (
         <div
-            className={`alert ${alertType} shadow-lg max-w-md fixed bottom-[10%] left-1/2 -translate-x-[50%]`}
+            className={`alert ${alertType} shadow-lg max-w-md fixed bottom-[10%] left-1/2 -translate-x-[50%] cursor-pointer hover:brightness-75 transition-[filter]`}
         >
             <div>
                 {svg}
