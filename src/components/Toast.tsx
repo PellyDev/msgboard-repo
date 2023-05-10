@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { TtoastType } from "../App"
 
 type TProps = {
@@ -8,6 +9,14 @@ type TProps = {
 
 export default function Toast(props: TProps) {
     const { message, type, destroyToast } = props
+
+    // destroy the toast after 3 seconds, clean up function to clean up the timer if toast is destroyed before
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            destroyToast()
+        }, 3000)
+        return () => clearTimeout(timer)
+    }, [])
 
     let svg = null
     if (type === "info") {

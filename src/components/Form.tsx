@@ -167,6 +167,12 @@ export default function Form({ createToast }: TProps) {
                 <label htmlFor="keyPhrase" className="label ">
                     <span className="label-text">Keyphrase</span>
                     <svg
+                        onClick={() =>
+                            createToast(
+                                "You need to set a keyphrase to be able to delete your post in the future.",
+                                "info"
+                            )
+                        }
                         className="label-text-alt w-6 cursor-pointer"
                         clipRule="evenodd"
                         fillRule="evenodd"
