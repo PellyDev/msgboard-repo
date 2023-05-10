@@ -1,10 +1,13 @@
+import { TtoastType } from "../App"
+
 type TProps = {
     message: string
-    type: "info" | "success" | "error"
+    type: TtoastType
+    destroyToast: () => void
 }
 
 export default function Toast(props: TProps) {
-    const { message, type } = props
+    const { message, type, destroyToast } = props
 
     let svg = null
     if (type === "info") {

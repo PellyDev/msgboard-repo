@@ -1,6 +1,11 @@
 import { useState } from "react"
+import { TtoastType } from "../App"
 
-export default function Form() {
+type TProps = {
+    createToast: (msg: string, type: TtoastType) => void
+}
+
+export default function Form({ createToast }: TProps) {
     const [username, setUsername] = useState("")
     const [title, setTitle] = useState("")
     const [keyPhrase, setKeyPhrase] = useState("")

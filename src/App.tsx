@@ -4,8 +4,27 @@ import { useEffect, useState } from "react"
 import Form from "./components/Form"
 import Toast from "./components/Toast"
 
+export type TtoastType = "info" | "success" | "error"
+
 function App() {
     const [posts, setPosts] = useState<Array<DocumentData>>([])
+    const [showToast, setShowToast] = useState<boolean>(false)
+
+    // props for Toast component, determines configuration of the toast
+    const [toastProps, setToastProps] = useState<{
+        msg: string
+        type: TtoastType
+    }>({ msg: "", type: "info" })
+
+    function createToast(msg: string, type: TtoastType): void {
+        setToastProps({ msg, type })
+        setShowToast(true)
+    }
+
+    function destroyToast(): void {
+        setShowToast(false)
+    }
+
     useEffect(() => {
         async function getPosts() {
             try {
@@ -33,11 +52,14 @@ function App() {
                     />
                 ))}
             </div>
-            <Form />
-            <Toast
-                message="You need to set a keyphrase so you can delete your posts later."
-                type="info"
-            />
+            <Form createToast={createToast} />
+            {showToast && (
+                <Toast
+                    message={toastProps.msg}
+                    type={toastProps.type}
+                    destroyToast={destroyToast}
+                />
+            )}
         </div>
     )
 }
