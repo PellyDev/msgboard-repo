@@ -1,13 +1,24 @@
 import avatar from "../assets/avatar.jpg"
+import avatar_1 from "../assets/avatar_1.png"
+import avatar_2 from "../assets/avatar_2.png"
+import avatar_3 from "../assets/avatar_3.png"
 import { IPost } from "../interfaces/post"
 
 export default function Post(props: IPost) {
+    // mapping avatarId to avatar image
+    const avatarMap: { [key: number]: string } = {
+        0: avatar_1,
+        1: avatar_2,
+        2: avatar_3,
+    }
+
+    const { author, text, title, id, seconds, avatarId } = props
+    const formattedDate = new Date(seconds * 1000).toLocaleDateString()
+
     function deleteHandler() {
         // TODO: implement serverless function to delete post
         console.log(`deleting post with ID ${id}`)
     }
-    const { author, text, title, id, seconds, avatarId } = props
-    const formattedDate = new Date(seconds * 1000).toLocaleDateString()
     return (
         <div className="card w-6/12 shadow-xl">
             <div className="card-body gap-8">
@@ -35,10 +46,10 @@ export default function Post(props: IPost) {
                 </div>
                 <p>{text}</p>
                 <div className="flex w-full text-gray-400 justify-between items-center">
-                    <div className="flex gap-3 items-center">
+                    <div className="flex gap-4 items-center">
                         <div className="avatar">
-                            <div className="w-8 rounded-full">
-                                <img className="" src={avatar} />
+                            <div className="w-12 rounded-full">
+                                <img className="" src={avatarMap[avatarId]} />
                             </div>
                         </div>
                         <p className=" font-semibold">{author}</p>
