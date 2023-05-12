@@ -1,18 +1,20 @@
+import { DocumentData } from "@firebase/firestore-types"
 import { useState } from "react"
 import { TtoastType } from "../App"
 
 type TProps = {
     createToast: (msg: string, type: TtoastType) => void
+    onPostCreated: (post: DocumentData) => void
 }
 
-export default function Form({ createToast }: TProps) {
-    const [username, setUsername] = useState("")
+export default function Form({ createToast, onPostCreated }: TProps) {
+    const [author, setAuthor] = useState("")
     const [title, setTitle] = useState("")
     const [keyPhrase, setKeyPhrase] = useState("")
     const [text, setText] = useState("")
 
-    // username needs to be between 3 and 15 characters
-    const [userState, setUserState] = useState({
+    // author needs to be between 3 and 15 characters
+    const [authorState, setAuthorState] = useState({
         isValid: false,
         isTouched: false,
     })
@@ -31,19 +33,44 @@ export default function Form({ createToast }: TProps) {
         isValid: false,
         isTouched: false,
     })
+    // make a call to the serverless function to create a post; returns 200 if successful
+    async function createPost() {
+        const res = await fetch("/api/createPost", {
+            method: "POST",
+            body: JSON.stringify({
+                author,
+                title,
+                keyPhrase,
+                text,
+            }),
+        })
+        const data = await res.json()
+        return res.status === 200 ? data.doc : null
+    }
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
+        let doc: DocumentData | null = {}
+        // check if all inputs are valid
         if (
-            userState.isValid &&
+            authorState.isValid &&
             titleState.isValid &&
             keyPhaseState.isValid &&
             textState.isValid
         ) {
-            createToast("Post submitted.", "success")
-            handleReset()
+            doc = await createPost()
+            // check if post was created successfully
+            if (doc) {
+                handleReset()
+                onPostCreated(doc)
+                createToast(`Your post has been created.`, "success")
+                // if post was not created successfully, show error toast
+            } else {
+                createToast("Something went wrong, please try again.", "error")
+            }
+            // if input was invalid, show error toast
         } else {
-            setUserState((prev) => ({ ...prev, isTouched: true }))
+            setAuthorState((prev) => ({ ...prev, isTouched: true }))
             setTitleState((prev) => ({ ...prev, isTouched: true }))
             setKeyPhaseState((prev) => ({ ...prev, isTouched: true }))
             setTextState((prev) => ({ ...prev, isTouched: true }))
@@ -52,22 +79,22 @@ export default function Form({ createToast }: TProps) {
     }
 
     function handleReset() {
-        setUsername("")
+        setAuthor("")
         setTitle("")
         setKeyPhrase("")
         setText("")
-        setUserState({ isValid: false, isTouched: false })
+        setAuthorState({ isValid: false, isTouched: false })
         setTitleState({ isValid: false, isTouched: false })
         setKeyPhaseState({ isValid: false, isTouched: false })
         setTextState({ isValid: false, isTouched: false })
     }
 
-    function handleUsername(e: React.ChangeEvent<HTMLInputElement>) {
-        setUsername(e.target.value)
+    function handleAuthor(e: React.ChangeEvent<HTMLInputElement>) {
+        setAuthor(e.target.value)
         if (e.target.value.length >= 3 && e.target.value.length <= 15) {
-            setUserState((prev) => ({ ...prev, isValid: true }))
+            setAuthorState((prev) => ({ ...prev, isValid: true }))
         } else {
-            setUserState((prev) => ({ ...prev, isValid: false }))
+            setAuthorState((prev) => ({ ...prev, isValid: false }))
         }
     }
 
@@ -106,33 +133,33 @@ export default function Form({ createToast }: TProps) {
     return (
         <form onSubmit={handleSubmit}>
             <div className="form-control max-w-lg mx-auto pt-12">
-                <label htmlFor="username" className="label">
-                    <span className="label-text">Username</span>
+                <label htmlFor="author" className="label">
+                    <span className="label-text">Author</span>
                 </label>
                 <input
-                    id="username"
-                    value={username}
-                    onChange={handleUsername}
+                    id="author"
+                    value={author}
+                    onChange={handleAuthor}
                     onBlur={() =>
-                        setUserState((prev) => ({ ...prev, isTouched: true }))
+                        setAuthorState((prev) => ({ ...prev, isTouched: true }))
                     }
                     placeholder="Your name..."
                     className={`input input-bordered ${
-                        userState.isTouched && !userState.isValid
+                        authorState.isTouched && !authorState.isValid
                             ? "input-error"
                             : ""
                     } focus:outline-accent`}
                     type="text"
                 />
                 <label
-                    htmlFor="username"
+                    htmlFor="author"
                     className={`label ${
-                        (!userState.isTouched || userState.isValid) &&
+                        (!authorState.isTouched || authorState.isValid) &&
                         "invisible"
                     }`}
                 >
                     <span className="label-text text-error">
-                        Your username has to be between 3 and 15 characters
+                        Your author name has to be between 3 and 15 characters
                     </span>
                 </label>
                 <label htmlFor="title" className="label ">

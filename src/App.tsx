@@ -25,6 +25,10 @@ function App() {
         setShowToast(false)
     }
 
+    function onPostCreated(post: DocumentData) {
+        setPosts((prev) => [post, ...prev])
+    }
+
     useEffect(() => {
         async function getPosts() {
             try {
@@ -52,7 +56,7 @@ function App() {
                     />
                 ))}
             </div>
-            <Form createToast={createToast} />
+            <Form createToast={createToast} onPostCreated={onPostCreated} />
             {showToast && (
                 <Toast
                     message={toastProps.msg}
