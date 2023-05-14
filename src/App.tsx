@@ -44,17 +44,18 @@ function App() {
     return (
         <div className="App">
             <div className="flex justify-center gap-8 flex-wrap">
-                {posts.map((post) => (
-                    <Post
-                        key={post.id}
-                        id={post.id}
-                        author={post.author}
-                        text={post.text}
-                        title={post.title}
-                        seconds={post.date.seconds}
-                        avatarId={post.avatarId}
-                    />
-                ))}
+                {posts &&
+                    posts.map((post) => (
+                        <Post
+                            key={post.id}
+                            id={post.id}
+                            author={post.author}
+                            text={post.text}
+                            title={post.title}
+                            seconds={post.date.seconds}
+                            avatarId={post.avatarId}
+                        />
+                    ))}
             </div>
             <Form createToast={createToast} onPostCreated={onPostCreated} />
             {showToast && (

@@ -62,9 +62,9 @@ export default function Form({ createToast, onPostCreated }: TProps) {
             // check if post was created successfully
             if (doc) {
                 handleReset()
+                // add posts to state in App component and rerender
                 onPostCreated(doc)
                 createToast(`Your post has been created.`, "success")
-                // if post was not created successfully, show error toast
             } else {
                 createToast("Something went wrong, please try again.", "error")
             }

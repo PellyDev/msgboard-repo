@@ -80,11 +80,12 @@ export default function Toast(props: TProps) {
         )
     }
 
-    let alertType = null
+    let alertType = ""
 
     if (type === "info") alertType = "alert-info"
     else if (type === "success") alertType = "alert-success"
     else alertType = "alert-error"
+
     return (
         <div
             className={`alert ${alertType} shadow-lg max-w-md fixed bottom-[10%] left-1/2 -translate-x-[50%] cursor-pointer hover:brightness-75 transition-[filter]`}
