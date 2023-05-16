@@ -162,7 +162,7 @@ export default function Form({ createToast, onPostCreated }: TProps) {
                         Your author name has to be between 3 and 15 characters
                     </span>
                 </label>
-                <label htmlFor="title" className="label ">
+                <label htmlFor="title" className="label">
                     <span className="label-text">Title</span>
                 </label>
                 <input

@@ -2,6 +2,7 @@ import avatar_1 from "../assets/avatar_1.png"
 import avatar_2 from "../assets/avatar_2.png"
 import avatar_3 from "../assets/avatar_3.png"
 import { IPost } from "../interfaces/post"
+import DeleteModal from "./DeleteModal"
 
 export default function Post(props: IPost) {
     // mapping avatarId (queried from db) to avatar image
@@ -18,6 +19,7 @@ export default function Post(props: IPost) {
         // TODO: implement serverless function to delete post
         console.log(`deleting post with ID ${id}`)
     }
+    console.log(id)
     return (
         <div className="card w-6/12 shadow-xl">
             <div className="card-body gap-8">
@@ -25,7 +27,8 @@ export default function Post(props: IPost) {
                     <h2 className="card-title text-primary font-bold">
                         {title}
                     </h2>
-                    <button
+                    <label
+                        htmlFor={`delete-${id}`}
                         onClick={deleteHandler}
                         className="btn btn-sm btn-square btn-outline btn-secondary"
                     >
@@ -43,7 +46,8 @@ export default function Post(props: IPost) {
                                 d="M6 18L18 6M6 6l12 12"
                             />
                         </svg>
-                    </button>
+                    </label>
+                    <DeleteModal id={id} title={title} />
                 </div>
                 <p>{text}</p>
                 <div className="flex w-full text-gray-400 justify-between items-center">
