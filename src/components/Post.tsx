@@ -2,9 +2,15 @@ import avatar_1 from "../assets/avatar_1.png"
 import avatar_2 from "../assets/avatar_2.png"
 import avatar_3 from "../assets/avatar_3.png"
 import { IPost } from "../interfaces/post"
+import { TtoastType } from "../App"
 import DeleteModal from "./DeleteModal"
 
-export default function Post(props: IPost) {
+type TProps = IPost & {
+    createToast: (msg: string, type: TtoastType) => void
+    onPostDeleted: (id: string) => void
+}
+
+export default function Post(props: TProps) {
     // mapping avatarId (queried from db) to avatar image
     const avatarMap: { [key: number]: string } = {
         0: avatar_1,
@@ -12,14 +18,21 @@ export default function Post(props: IPost) {
         2: avatar_3,
     }
 
-    const { author, text, title, id, seconds, avatarId } = props
+    const {
+        author,
+        text,
+        title,
+        id,
+        seconds,
+        avatarId,
+        createToast,
+        onPostDeleted,
+    } = props
     const formattedDate = new Date(seconds * 1000).toLocaleDateString()
 
     function deleteHandler() {
         // TODO: implement serverless function to delete post
-        console.log(`deleting post with ID ${id}`)
     }
-    console.log(id)
     return (
         <div className="card w-6/12 shadow-xl">
             <div className="card-body gap-8">
@@ -47,7 +60,12 @@ export default function Post(props: IPost) {
                             />
                         </svg>
                     </label>
-                    <DeleteModal id={id} title={title} />
+                    <DeleteModal
+                        id={id}
+                        title={title}
+                        createToast={createToast}
+                        onPostDeleted={props.onPostDeleted}
+                    />
                 </div>
                 <p>{text}</p>
                 <div className="flex w-full text-gray-400 justify-between items-center">

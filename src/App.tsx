@@ -29,6 +29,10 @@ function App() {
         setPosts((prev) => [post, ...prev])
     }
 
+    function onPostDeleted(id: string) {
+        setPosts((prev) => prev.filter((post) => post.id !== id))
+    }
+
     useEffect(() => {
         async function getPosts() {
             try {
@@ -54,6 +58,8 @@ function App() {
                             title={post.title}
                             seconds={post.date.seconds}
                             avatarId={post.avatarId}
+                            createToast={createToast}
+                            onPostDeleted={onPostDeleted}
                         />
                     ))}
             </div>

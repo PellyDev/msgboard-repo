@@ -1,16 +1,32 @@
 import { useState } from "react"
+import { TtoastType } from "../App"
 
 type TProps = {
     title: string
     id: string
+    createToast: (msg: string, type: TtoastType) => void
+    onPostDeleted: (id: string) => void
 }
 
 export default function DeleteModal(props: TProps) {
     const [keyphrase, setKeyphrase] = useState("")
-    const { id, title } = props
+    const { id, title, createToast, onPostDeleted } = props
 
     function isValidKeyphrase(keyphrase: string) {
         return keyphrase.length >= 3 && /\d/.test(keyphrase)
+    }
+
+    async function handleDelete() {
+        const res = await fetch("/api/deletePost", {
+            method: "DELETE",
+            body: JSON.stringify({ id, keyphrase }),
+        })
+        if (res.status === 200) {
+            createToast("Post deleted successfully!", "success")
+            onPostDeleted(id)
+        } else {
+            createToast("Invalid keyphrase! Please try again.", "error")
+        }
     }
 
     return (
@@ -52,8 +68,8 @@ export default function DeleteModal(props: TProps) {
                     />
                     <label htmlFor="keyphraseField" className="label">
                         <span className="label-text">
-                            Your keyphrase is between 3 and 15 characters and
-                            contains at least 1 number.
+                            Your keyphrase is between 3 and 15 characters long
+                            and contains at least 1 number.
                         </span>
                     </label>
                     <label
@@ -63,6 +79,7 @@ export default function DeleteModal(props: TProps) {
                                 ? "btn-secondary"
                                 : "btn-disabled"
                         } px-8 mt-2 self-end`}
+                        onClick={handleDelete}
                     >
                         delete
                     </label>

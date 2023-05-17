@@ -23,7 +23,6 @@ export async function handler(): Promise<{ statusCode: number; body: string }> {
     await getPosts()
     // sort posts by date -> newest at the top
     posts = posts.sort((a, b) => b.date.seconds - a.date.seconds)
-    console.log(posts)
     return {
         statusCode: 200,
         body: JSON.stringify({ data: posts }),
