@@ -12,6 +12,7 @@ export default function Form({ createToast, onPostCreated }: TProps) {
     const [title, setTitle] = useState("")
     const [keyPhrase, setKeyPhrase] = useState("")
     const [text, setText] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
     // author needs to be between 3 and 15 characters
     const [authorState, setAuthorState] = useState({
@@ -35,17 +36,24 @@ export default function Form({ createToast, onPostCreated }: TProps) {
     })
     // make a call to the serverless function to create a post; returns 200 if successful
     async function createPost() {
-        const res = await fetch("/api/createPost", {
-            method: "POST",
-            body: JSON.stringify({
-                author,
-                title,
-                keyPhrase,
-                text,
-            }),
-        })
-        const data = await res.json()
-        return res.status === 200 ? data.doc : null
+        setIsLoading(true)
+        try {
+            const res = await fetch("/api/createPost", {
+                method: "POST",
+                body: JSON.stringify({
+                    author,
+                    title,
+                    keyPhrase,
+                    text,
+                }),
+            })
+            const data = await res.json()
+            return res.status === 200 ? data.doc : null
+        } catch {
+            return null
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -131,7 +139,12 @@ export default function Form({ createToast, onPostCreated }: TProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form
+            onSubmit={(e) => {
+                if (isLoading) return
+                handleSubmit(e)
+            }}
+        >
             <div className="form-control max-w-lg mx-auto pt-12 pb-6 px-4">
                 <label htmlFor="author" className="label">
                     <span className="label-text">Author</span>
@@ -276,7 +289,9 @@ export default function Form({ createToast, onPostCreated }: TProps) {
                 <div className="flex w-full justify-between">
                     <button
                         type="submit"
-                        className="btn btn-primary w-1/3 mt-4"
+                        className={`btn btn-primary ${
+                            isLoading ? "btn-disabled" : ""
+                        } w-1/3 mt-4`}
                     >
                         submit
                     </button>

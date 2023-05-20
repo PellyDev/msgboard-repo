@@ -17,7 +17,7 @@ export async function handler(): Promise<{ statusCode: number; body: string }> {
                 id: doc.id,
             }))
         } catch (err) {
-            console.log("i error")
+            console.log(err)
         }
     }
     await getPosts()

@@ -88,7 +88,10 @@ export default function DeleteModal(props: TProps) {
                                 ? "btn-secondary"
                                 : "btn-disabled"
                         } px-8 mt-2 self-end`}
-                        onClick={handleDelete}
+                        onClick={() => {
+                            if (isLoading) return
+                            handleDelete()
+                        }}
                     >
                         {isLoading ? (
                             <div
