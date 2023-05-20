@@ -64,7 +64,7 @@ export default function Post(props: TProps) {
                         id={id}
                         title={title}
                         createToast={createToast}
-                        onPostDeleted={props.onPostDeleted}
+                        onPostDeleted={onPostDeleted}
                     />
                 </div>
                 <p>{text}</p>

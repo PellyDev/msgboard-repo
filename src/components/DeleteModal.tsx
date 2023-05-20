@@ -17,15 +17,20 @@ export default function DeleteModal(props: TProps) {
     }
 
     async function handleDelete() {
-        const res = await fetch("/api/deletePost", {
-            method: "DELETE",
-            body: JSON.stringify({ id, keyphrase }),
-        })
-        if (res.status === 200) {
-            createToast("Post deleted successfully!", "success")
-            onPostDeleted(id)
-        } else {
-            createToast("Invalid keyphrase! Please try again.", "error")
+        try {
+            const res = await fetch("/api/deletePost", {
+                method: "DELETE",
+                body: JSON.stringify({ id, keyphrase }),
+            })
+            console.log(id, keyphrase)
+            if (res.status === 200) {
+                createToast("Post deleted successfully!", "success")
+                onPostDeleted(id)
+            } else {
+                createToast("Invalid keyphrase! Please try again.", "error")
+            }
+        } catch {
+            createToast("Something went wrong! Please try again.", "error")
         }
     }
 

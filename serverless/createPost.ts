@@ -31,6 +31,12 @@ export async function handler(
     }
     return {
         statusCode,
-        body: JSON.stringify({ doc: doc.data() }),
+        body: JSON.stringify({
+            doc: {
+                ...doc.data(),
+                keyPhrase: null,
+                id: doc.id,
+            },
+        }),
     }
 }

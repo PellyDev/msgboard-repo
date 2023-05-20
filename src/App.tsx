@@ -9,7 +9,7 @@ export type TtoastType = "info" | "success" | "error"
 function App() {
     const [posts, setPosts] = useState<Array<DocumentData>>([])
     const [showToast, setShowToast] = useState<boolean>(false)
-
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     // props for Toast component, determines configuration of the toast
     const [toastProps, setToastProps] = useState<{
         msg: string
@@ -35,19 +35,33 @@ function App() {
 
     useEffect(() => {
         async function getPosts() {
+            setIsLoading(true)
             try {
                 const res = await fetch("/api/getPosts")
                 const data = await res.json()
                 setPosts(data.data)
             } catch (err) {
                 console.log(err)
+            } finally {
+                setIsLoading(false)
             }
         }
         getPosts()
     }, [])
+    console.log(posts)
     return (
         <div className="App">
             <div className="flex justify-center gap-8 flex-wrap">
+                {isLoading && (
+                    <div
+                        className="mt-8 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                        role="status"
+                    >
+                        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                            Loading...
+                        </span>
+                    </div>
+                )}
                 {posts &&
                     posts.map((post) => (
                         <Post
