@@ -132,7 +132,7 @@ export default function Form({ createToast, onPostCreated }: TProps) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="form-control max-w-lg mx-auto pt-12">
+            <div className="form-control max-w-lg mx-auto pt-12 pb-6 px-4">
                 <label htmlFor="author" className="label">
                     <span className="label-text">Author</span>
                 </label>

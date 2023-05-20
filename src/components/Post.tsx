@@ -34,7 +34,7 @@ export default function Post(props: TProps) {
         // TODO: implement serverless function to delete post
     }
     return (
-        <div className="card w-6/12 shadow-xl">
+        <div className="card md:w-6/12 shadow-xl">
             <div className="card-body gap-8">
                 <div className="flex justify-between">
                     <h2 className="card-title text-primary font-bold">
