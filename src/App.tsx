@@ -48,7 +48,6 @@ function App() {
         }
         getPosts()
     }, [])
-    console.log(posts)
     return (
         <div className="App">
             <div className="flex justify-center gap-8 flex-wrap">
