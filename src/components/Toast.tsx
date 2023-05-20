@@ -88,7 +88,7 @@ export default function Toast(props: TProps) {
 
     return (
         <div
-            className={`alert ${alertType} shadow-lg w-3/4 md:w-fit fixed bottom-[10%] left-1/2 -translate-x-[50%] cursor-pointer hover:brightness-75 transition-[filter]`}
+            className={`alert z-[1000] ${alertType} shadow-lg w-3/4 md:w-fit fixed bottom-[10%] left-1/2 -translate-x-[50%] cursor-pointer hover:brightness-75 transition-[filter]`}
         >
             <div>
                 {svg}

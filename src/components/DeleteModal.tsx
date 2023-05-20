@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { TtoastType } from "../App"
 
 type TProps = {
@@ -9,7 +9,9 @@ type TProps = {
 }
 
 export default function DeleteModal(props: TProps) {
+    const closeModalRef = useRef<HTMLLabelElement>(null)
     const [keyphrase, setKeyphrase] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
     const { id, title, createToast, onPostDeleted } = props
 
     function isValidKeyphrase(keyphrase: string) {
@@ -17,13 +19,14 @@ export default function DeleteModal(props: TProps) {
     }
 
     async function handleDelete() {
+        setIsLoading(true)
         try {
             const res = await fetch("/api/deletePost", {
                 method: "DELETE",
                 body: JSON.stringify({ id, keyphrase }),
             })
-            console.log(id, keyphrase)
             if (res.status === 200) {
+                closeModalRef.current?.click()
                 createToast("Post deleted successfully!", "success")
                 onPostDeleted(id)
             } else {
@@ -31,6 +34,8 @@ export default function DeleteModal(props: TProps) {
             }
         } catch {
             createToast("Something went wrong! Please try again.", "error")
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -77,17 +82,32 @@ export default function DeleteModal(props: TProps) {
                             and contains at least 1 number.
                         </span>
                     </label>
-                    <label
-                        htmlFor={`delete-${id}`}
-                        className={`btn btn-outline ${
+                    <button
+                        className={`btn ${isLoading ? "" : "btn-outline"} ${
                             isValidKeyphrase(keyphrase)
                                 ? "btn-secondary"
                                 : "btn-disabled"
                         } px-8 mt-2 self-end`}
                         onClick={handleDelete}
                     >
-                        delete
-                    </label>
+                        {isLoading ? (
+                            <div
+                                className="inline-block h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                                role="status"
+                            >
+                                <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                                    Loading...
+                                </span>
+                            </div>
+                        ) : (
+                            "delete"
+                        )}
+                    </button>
+                    <label
+                        ref={closeModalRef}
+                        className="invisible"
+                        htmlFor={`delete-${id}`}
+                    ></label>
                 </label>
             </label>
         </>
