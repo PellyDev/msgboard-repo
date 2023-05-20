@@ -288,19 +288,19 @@ export default function Form({ createToast, onPostCreated }: TProps) {
                 </label>
                 <div className="flex w-full justify-between">
                     <button
+                        type="reset"
+                        onClick={handleReset}
+                        className="btn btn-outline btn-secondary w-1/3 mt-4"
+                    >
+                        reset form
+                    </button>
+                    <button
                         type="submit"
                         className={`btn btn-primary ${
                             isLoading ? "btn-disabled" : ""
                         } w-1/3 mt-4`}
                     >
                         submit
-                    </button>
-                    <button
-                        type="reset"
-                        onClick={handleReset}
-                        className="btn btn-outline btn-secondary w-1/3 mt-4"
-                    >
-                        reset form
                     </button>
                 </div>
             </div>
